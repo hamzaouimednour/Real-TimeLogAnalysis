@@ -1,0 +1,28 @@
+app:
+  workstation: 192.168.1.95
+
+spring:
+  datasource:
+    url: # no datasource configured
+
+  data:
+    elasticsearch:
+      host: ${app.workstation}
+      port: 9200
+      cluster-name: docker-cluster
+      cluster-nodes: "${app.workstation}:9200"
+    kafka:
+      bootstrap-servers: "${app.workstation}:9092"
+      consumer:
+        group-id: log_group
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        properties:
+          spring:
+            json:
+              trusted:
+                packages: '*'
+      producer:
+        bootstrap-servers: "${app.workstation}:9092"
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
